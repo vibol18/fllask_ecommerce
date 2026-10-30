@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}My Orders · FlashShop{% endblock %}
+{% block content %}
+<h2>My Orders</h2>
+
+{% if orders %}
+  <div class="list-group shadow-sm">
+    {% for order in orders %}
+      <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{{ url_for('orders.order_detail', oid=order.id) }}">
+        <div>
+          Order #{{ order.id }}
+          <small class="text-muted"> — ${{ order.total | floatformat: 2 }} — {{ order.created_at }}</small>
+        </div>
+        <span class="badge bg-secondary">{{ order.status }}</span>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-info">You haven't placed any orders yet.</div>
+{% endif %}
+{% endblock %}

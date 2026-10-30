@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Shop · FlashShop{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+  <h2>Shop our products</h2>
+  <form method="get" action="{{ url_for('products.index') }}" class="d-flex gap-2">
+    <input
+      type="search"
+      name="q"
+      class="form-control"
+      placeholder="Search products..."
+      value="{{ q or '' }}"
+    />
+    <select name="category" class="form-select" style="max-width: 200px;">
+      <option value="">All categories</option>
+      {% for c in categories %}
+        <option value="{{ c }}" {% if c == selected_category %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+    <button class="btn btn-dark" type="submit">Search</button>
+  </form>
+</div>
+
+{% if products %}
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for product in products %}
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          {% if product.image_url %}
+            <img
+              src="{{ product.image_url }}"
+              class="card-img-top"
+              alt="{{ product.name }}"
+              style="height: 180px; object-fit: cover;"
+            />
+          {% else %}
+            <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 180px;">
+              <span style="font-size: 3rem;">🛍️</span>
+            </div>
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{{ url_for('products.detail', pid=product.id) }}" class="text-decoration-none">{{ product.name }}</a>
+            </h5>
+            <p class="card-text text-muted small">{{ product.description }}</p>
+            <p class="fw-bold text-success fs-5">${{ product.price | floatformat: 2 }}</p>
+            <span class="badge text-bg-light border">{{ product.category }}</span>
+            {% if product.stock > 0 %}
+              <span class="badge text-bg-success ms-1">In stock ({{ product.stock }})</span>
+            {% else %}
+              <span class="badge text-bg-danger ms-1">Out of stock</span>
+            {% endif %}
+          </div>
+          <div class="card-footer bg-white">
+            <a href="{{ url_for('products.detail', pid=product.id) }}" class="btn btn-outline-secondary btn-sm">View</a>
+            <form method="post" action="{{ url_for('cart.add') }}" class="d-inline">
+              <input type="hidden" name="product_id" value="{{ product.id }}" />
+              <input
+                type="number"
+                name="quantity"
+                value="1"
+                min="1"
+                max="{{ product.stock or 1 }}"
+                class="form-control d-inline"
+                style="width: 70px;"
+              />
+              <button class="btn btn-primary btn-sm" type="submit" {% if product.stock == 0 %}disabled{% endif %}>Add to Cart</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-info">No products found.</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Register · FlashShop{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="card-title mb-3">Register</h3>
+        <form method="post" action="{{ url_for('auth.register') }}">
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" name="username" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" name="confirm" class="form-control" required />
+          </div>
+          <button class="btn btn-dark w-100" type="submit">Create Account</button>
+        </form>
+        <p class="mt-3 mb-0">
+          Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
