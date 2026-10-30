@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Admin · Products · FlashShop{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Manage Products</h2>
+  <a class="btn btn-dark" href="{{ url_for('admin.admin_product_new') }}">+ New Product</a>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <table class="table align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Updated</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+          <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>$ {{ product.price | round(2) }}</td>
+            <td>{{ product.stock }}</td>
+            <td>{{ product.updated_at }}</td>
+            <td class="text-end">
+              <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('admin.admin_product_edit', pid=product.id) }}">Edit</a>
+              <form method="post" action="{{ url_for('admin.admin_product_delete', pid=product.id) }}" class="d-inline">
+                <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -23,7 +23,7 @@
   <div class="col-md-6">
     <h2>{{ product.name }}</h2>
     <p class="text-muted">{{ product.category }}</p>
-    <p class="text-dark fs-3 fw-bold">${{ product.price | floatformat: 2 }}</p>
+    <p class="text-dark fs-3 fw-bold">$ {{ product.price | round(2) }}</p>
     {% if product.stock > 0 %}
       <p><span class="badge text-bg-success">In stock: {{ product.stock }}</span></p>
     {% else %}

@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, context_processor, session
+from flask import Flask, redirect, session, url_for
 
 from helpers import get_current_user
 from models import Product, User, db
@@ -62,6 +62,10 @@ def create_app():
     with app.app_context():
         db.create_all()
         _seed_admin()
+
+    @app.route("/")
+    def home():
+        return redirect(url_for("products.index"))
 
     return app
 

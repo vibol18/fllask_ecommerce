@@ -22,9 +22,9 @@
               {% for item in items %}
                 <tr>
                   <td>{{ item.product.name }}</td>
-                  <td>${{ item.product.price | floatformat: 2 }}</td>
+                  <td>$ {{ item.product.price | round(2) }}</td>
                   <td>{{ item.quantity }}</td>
-                  <td>${% set line = item.product.price * item.quantity %}${line | floatformat: 2}</td>
+                  <td>${% set line = item.product.price * item.quantity %}${line | round(2)}</td>
                 </tr>
               {% endfor %}
             </tbody>
@@ -36,7 +36,7 @@
       <div class="card shadow-sm h-100">
         <div class="card-body">
           <h5 class="card-title">Order Summary</h5>
-          <p class="mb-1">Total: <strong class="fs-5">${{ total | floatformat: 2 }}</strong></p>
+          <p class="mb-1">Total: <strong class="fs-5">$ {{ total | round(2) }}</strong></p>
           <form method="post" action="{{ url_for('orders.checkout') }}">
             <button class="btn btn-dark w-100" type="submit">Place Order</button>
           </form>

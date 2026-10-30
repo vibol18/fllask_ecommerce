@@ -22,16 +22,16 @@
         {% for item in items %}
           <tr>
             <td>{{ item.product.name }}</td>
-            <td>${{ item.price | floatformat: 2 }}</td>
+            <td>$ {{ item.price | round(2) }}</td>
             <td>{{ item.quantity }}</td>
-            <td>${% set line = item.price * item.quantity %}${line | floatformat: 2}</td>
+            <td>${% set line = item.price * item.quantity %}${line | round(2)}</td>
           </tr>
         {% endfor %}
       </tbody>
       <tfoot>
         <tr>
           <td colspan="3" class="text-end"><strong>Total</strong></td>
-          <td><strong>${{ order_total | floatformat: 2 }}</strong></td>
+          <td><strong>$ {{ order_total | round(2) }}</strong></td>
         </tr>
       </tfoot>
     </table>
